@@ -71,8 +71,9 @@ jobs:
             sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
 
             cd merchstore
+            mkdir /home/ubuntu/merchstore/node_modules/.cache
             sudo yarn
-            yarn start
+            sudo yarn start
 
             
 
