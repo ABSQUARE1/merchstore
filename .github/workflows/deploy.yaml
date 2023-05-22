@@ -40,7 +40,7 @@ jobs:
       - name: Set outputs
         id: set-ip
         run: |-
-          echo "::set-output name=client_public_ip::$(terraform output my-nginx-server4.public_ip)"
+          echo "::set-output name=client_public_ip::$(terraform output client_public_ip)"
         working-directory: ./terraform
 
   deploy-server:
