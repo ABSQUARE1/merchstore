@@ -8,8 +8,8 @@ sudo npm install -g yarn
 sudo ufw allow OpenSSH
 sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
 
-# cd merchstore
-# yarn
+cd merchstore
+yarn
 # yarn run build
 # sudo rm -rf /var/www/html
 # sudo mkdir /var/www/html

@@ -5,12 +5,19 @@ terraform {
       version = "~> 4.0"
     }
   }
+  backend "s3" {
+  bucket = "absquare-bucket"
+  key    = "aws/terraform/terraform.tfstate"
+  region = "us-east-1"
+}
 }
 
 #Configure the AWS Provider.
 provider "aws" {
   region = "us-east-1"
 }
+
+
 
 # Refer to the template file - install_nginx.sh
 data "template_file" "user_data1" {
@@ -35,20 +42,20 @@ resource "aws_instance" "my-nginx-server4" {
 }
 
 # Create EC2 Instance - Ubuntu 20.04 for nginx
-resource "aws_instance" "my-nginx-server5" {
-  ami                    = "ami-0aa2b7722dc1b5612"
-  instance_type          = "t2.micro"
-  availability_zone      = "us-east-1a"
-  key_name               = "memorykeypair"
-  vpc_security_group_ids = ["${aws_security_group.my_asg.id}"]
+# resource "aws_instance" "my-nginx-server5" {
+#   ami                    = "ami-0aa2b7722dc1b5612"
+#   instance_type          = "t2.micro"
+#   availability_zone      = "us-east-1a"
+#   key_name               = "memorykeypair"
+#   vpc_security_group_ids = ["${aws_security_group.my_asg.id}"]
   
-  # user_data : render the template
-  user_data     = base64encode("${data.template_file.user_data1.rendered}")
+#   # user_data : render the template
+#   user_data     = base64encode("${data.template_file.user_data1.rendered}")
 
-  tags = {
-    "Name" = "Ubuntu Nginx server 2"
-  }
-}
+#   tags = {
+#     "Name" = "Ubuntu Nginx server 2"
+#   }
+# }
 
 
 # Create a VPC
@@ -114,6 +121,7 @@ resource "aws_route" "route-inline" {
 resource "aws_security_group" "my_asg" {
 
   name = "My ASG"
+  vpc_id = aws_vpc.my_test_vpc1.id
 
   # Allow inbound HTTP requests
   ingress {
@@ -147,4 +155,11 @@ resource "aws_security_group" "my_asg" {
     protocol    = "-1"
     cidr_blocks = ["0.0.0.0/0"]
   }
+}
+
+
+output "instance-ip" {
+  value = aws_instance.my-nginx-server4.public_ip
+  sensitive = true
+  
 }
