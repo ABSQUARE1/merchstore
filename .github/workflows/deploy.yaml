@@ -15,7 +15,7 @@ jobs:
   deploy-infra:
     runs-on: ubuntu-latest
     outputs:
-      CLIENT_PUBLIC_IP: ${{ steps.set-ip.outputs.my-nginx-server4.public_ip }}
+      CLIENT_PUBLIC_IP: ${{ steps.set-ip.outputs.client_public_ip }}
     steps:
       - name: Checkout
         uses: actions/Checkout@v2
@@ -40,7 +40,7 @@ jobs:
       - name: Set outputs
         id: set-ip
         run: |-
-          echo "::set-output name=client_public_ip::$(terraform output client_public_ip)"
+          echo "::set-output name=client_public_ip::$(terraform output instance-ip)"
         working-directory: ./terraform
 
   deploy-server:
