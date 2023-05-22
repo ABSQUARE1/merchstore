@@ -58,16 +58,16 @@ resource "aws_instance" "my-nginx-server4" {
 # }
 
 
-# Create a VPC
-resource "aws_vpc" "my_test_vpc1" {
-  cidr_block           = "10.0.0.0/16"
-  enable_dns_hostnames = true
-  enable_dns_support   = true
+# # Create a VPC
+# resource "aws_vpc" "my_test_vpc1" {
+#   cidr_block           = "10.0.0.0/16"
+#   enable_dns_hostnames = true
+#   enable_dns_support   = true
 
-  tags = {
-    name = "dev"
-  }
-}
+#   tags = {
+#     name = "dev"
+#   }
+# }
 
 # creating a subnet
 resource "aws_subnet" "my_test_vpc1_PublicSubnet1" {
@@ -110,7 +110,6 @@ resource "aws_route" "route-inline" {
 resource "aws_security_group" "my_asg" {
 
   name = "My ASG"
-  vpc_id = aws_vpc.my_test_vpc1.id
 
   # Allow inbound HTTP requests
   ingress {
