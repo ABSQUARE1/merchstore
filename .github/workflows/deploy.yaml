@@ -59,74 +59,32 @@ jobs:
           key: ${{ env.PRIVATE_SSH_KEY }}
           envs: PRIVATE_SSH_KEY,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY
           script: |-
-            echo "donee"
             #!/bin/bash
 
-            sudo apt-get update -y
-            sudo apt-get install nginx npm git -y
-            sudo systemctl start nginx
-            sudo systemctl enable nginx
-            sudo npm install -g yarn 
-            sudo ufw allow OpenSSH
-            sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
+sudo apt-get update -y
+sudo apt-get install nginx npm git -y
+sudo systemctl start nginx
+sudo systemctl enable nginx
+sudo npm install -g yarn 
+sudo ufw allow OpenSSH
+sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
 
-            cd merchstore
-            mkdir /home/ubuntu/merchstore/node_modules/.cache
-            sudo yarn
-            sudo yarn start
+cd merchstore
+yarn
+# yarn run build
+# sudo rm -rf /var/www/html
+# sudo mkdir /var/www/html
+# sudo cp build/* /var/www/html -r
+# sudo systemctl restart nginx
 
-            
+sudo npm install -g pm2
+sudo pm2 delete react-build || true
+pm2 run build
+pm2 serve build/ 3000 -f --name "react-build" --spa
+sudo systemctl restart nginx
 
 
 
-  # deploy-client:
-  #   runs-on: ubuntu-latest
-  #   needs: [deploy-infra, deploy-server]
-  #   steps:
-  #     - name: Checkout
-  #       uses: actions/checkout@v3
-  #     - name: Set IP env variable
-  #       run:  |-
-  #         echo CLIENT_PUBLIC_IP=${{ needs.deploy-infra.outputs.CLIENT_PUBLIC_IP }} >> $GITHUB_ENV
-  #         echo SERVER_PUBLIC_IP=${{ needs.deploy-infra.outputs.SERVER_PUBLIC_IP }} >> $GITHUB_ENV
-  #     - name: Deploy client to EC2
-  #       uses: appleboy/ssh-action@master
-  #       with:
-  #         host: ${{ env.CLIENT_PUBLIC_IP }}
-  #         username: ubuntu
-  #         key: ${{ env.PRIVATE_SSH_KEY }}
-  #         envs: PRIVATE_SSH_KEY,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY
-  #         script: |-
-  #           sudo apt-get update
-  #           sudo apt-get install git -y
-  #           echo "--NODE & NPM--"
-  #           sudo apt install nodejs -y
-  #           sudo apt install npm -y
-  #           echo "-----PM2------"
-  #           sudo npm install -g pm2
-  #           sudo pm2 startup systemd
-  #           echo "-----NGINX------"
-  #           sudo apt-get install -y nginx
-  #           echo "---FIREWALL---"
-  #           sudo ufw allow OpenSSH
-  #           sudo ufw allow 'Nginx Full'
-  #           sudo ufw --force enable 
-  #           cd /home/ubuntu/
-  #           sudo rm -rf MERN-ECOMMERCE || true
-  #           git clone https://github.com/DevBarham/MERN-ECOMMERCE.git
-  #           cd MERN-ECOMMERCE/client
-  #           touch .env
-  #           echo REACT_APP_API_URL=http://"${{ needs.deploy-infra.outputs.SERVER_PUBLIC_IP }}" > .env
-  #           npm install
-  #           rm -rf build
-  #           npm run build
-  #           sudo pm2 delete react-build || true
-  #           pm2 serve build/ 3000 -f --name "react-build" --spa
-  #           sudo rm -rf /etc/nginx/sites-available/default
-  #           sudo cp default /etc/nginx/sites-available/ -r
-  #           sudo systemctl restart nginx
+
+
   
-            
-
-            
-           
