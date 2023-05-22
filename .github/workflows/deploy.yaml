@@ -60,32 +60,30 @@ jobs:
           envs: PRIVATE_SSH_KEY,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY
           script: |-
             echo "donee"
-            # sudo apt-get update
-            # sudo apt-get install git -y
-            # echo "--NODE & NPM--"
-            # sudo apt install nodejs -y
-            # sudo apt install npm -y
-            # echo "-----PM2------"
-            # sudo npm install -g pm2
-            # sudo pm2 startup systemd
-            # echo "-----NGINX------"
-            # sudo apt-get install -y nginx
-            # echo "---FIREWALL---"
-            # sudo ufw allow OpenSSH
-            # sudo ufw allow 'Nginx Full'
-            # sudo ufw --force enable 
-            # cd /home/ubuntu
-            # sudo rm -rf memories-server
-            # git clone https://github.com/DevBarham/MERN-ECOMMERCE.git
-            # cd MERN-ECOMMERCE
-            # cd server
-            # npm install
-            # sudo rm /etc/nginx/sites-available/default
-            # sudo cp default /etc/nginx/sites-available/ -r
-            # sudo pm2 kill
-            # pm2 start app.js
-            # sudo systemctl kill nginx || true
+            #!/bin/bash
+
+            sudo apt-get update -y
+            sudo apt-get install nginx npm git -y
+            sudo systemctl start nginx
+            sudo systemctl enable nginx
+            sudo npm install -g yarn 
+            sudo ufw allow OpenSSH
+            sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
+
+            cd merchstore
+            yarn
+            # yarn run build
+            # sudo rm -rf /var/www/html
+            # sudo mkdir /var/www/html
+            # sudo cp build/* /var/www/html -r
             # sudo systemctl restart nginx
+
+            sudo npm install -g pm2
+            sudo pm2 delete react-build || true
+            pm2 run build
+            pm2 serve build/ 3000 -f --name "react-build" --spa
+            sudo systemctl restart nginx
+
 
 
   # deploy-client:
