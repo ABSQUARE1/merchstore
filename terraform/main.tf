@@ -46,7 +46,7 @@ resource "aws_instance" "my-nginx-server4" {
 
 resource "aws_security_group" "my_asg" {
 
-  name = "My ASsG"
+  name = "My ASsGg"
 
   # Allow inbound HTTP requests
   ingress {
