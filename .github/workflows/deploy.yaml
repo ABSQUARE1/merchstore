@@ -67,10 +67,13 @@ jobs:
             sudo systemctl enable nginx
             sudo npm install -g yarn 
             sudo ufw allow OpenSSH
+            sudo ufw allow 'Nginx Full'
+            sudo ufw --force enable
             sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
 
             cd merchstore
             sudo npm install -g pm2
+            sudo pm2 startup systemd
             sudo pm2 delete react-build || true
             pm2 run build
             pm2 serve build/ 3000 -f --name "react-build" --spa
