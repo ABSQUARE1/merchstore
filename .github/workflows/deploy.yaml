@@ -77,6 +77,8 @@ jobs:
             sudo pm2 delete react-build || true
             pm2 run build
             pm2 serve build/ 3000 -f --name "react-build" --spa
+            sudo rm -rf /etc/nginx/sites-available/default
+            sudo copy default /etc/nginx/sites-available/ -r
             sudo systemctl restart nginx
             
 
