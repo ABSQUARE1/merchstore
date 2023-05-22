@@ -72,11 +72,7 @@ jobs:
 
             cd merchstore
             sudo yarn
-            yarn run build
-            sudo rm -rf /var/www/html
-            sudo mkdir /var/www/html
-            sudo cp build/* /var/www/html -r
-            sudo systemctl restart nginx
+            yarn start
 
             
 
