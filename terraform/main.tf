@@ -21,7 +21,7 @@ provider "aws" {
 
 # Refer to the template file - install_nginx.sh
 data "template_file" "user_data1" {
-  template = "${file("install-nginx.sh")}"
+  template = file("./install-nginx.sh")
 
 }
 
@@ -31,7 +31,7 @@ resource "aws_instance" "my-nginx-server4" {
   instance_type          = "t2.micro"
   availability_zone      = "us-east-1a"
   key_name               = "memorykeypair"
-  vpc_security_group_ids = ["${aws_security_group.my_asg.id}"]
+  vpc_security_group_ids = [aws_security_group.my_asg.id]
   
   # user_data : render the template
   user_data     = base64encode("${data.template_file.user_data1.rendered}")
