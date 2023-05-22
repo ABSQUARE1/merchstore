@@ -31,7 +31,7 @@ resource "aws_instance" "my-nginx-server4" {
   instance_type          = "t2.micro"
   availability_zone      = "us-east-1a"
   key_name               = "memorykeypair"
-  vpc_security_group_ids = [aws_security_group.my_asgg.id]
+  vpc_security_group_ids = [aws_security_group.my_asg.id]
   
   # user_data : render the template
   user_data     = base64encode("${data.template_file.user_data1.rendered}")
@@ -44,9 +44,9 @@ resource "aws_instance" "my-nginx-server4" {
 
 
 
-resource "aws_security_group" "my_asgg" {
+resource "aws_security_group" "my_asg" {
 
-  name = "My ASG"
+  name = "My ASsG"
 
   # Allow inbound HTTP requests
   ingress {
