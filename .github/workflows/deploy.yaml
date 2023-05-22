@@ -9,7 +9,7 @@ env:
   TF_STATE_BUCKET_NAME: ${{ secrets.AWS_TF_STATE_BUCKET_NAME }}
   AWS_REGION: us-east-1
   PUBLIC_SSH_KEY: ${{ secrets.AWS_SSH_KEY_PUBLIC }}
-  PRIVATE_SSH_KEY: ${{secrets.PRIVATE_SSH_KEY}}
+  PRIVATE_SSH_KEY: ${{ secrets.PRIVATE_SSH_KEY }}
 
 jobs:
   deploy-infra:
@@ -60,7 +60,7 @@ jobs:
           key: ${{ env.PRIVATE_SSH_KEY }}
           envs: PRIVATE_SSH_KEY,AWS_ACCESS_KEY_ID,AWS_SECRET_ACCESS_KEY
           script: |-
-            echo donee
+            echo "donee"
             # sudo apt-get update
             # sudo apt-get install git -y
             # echo "--NODE & NPM--"
