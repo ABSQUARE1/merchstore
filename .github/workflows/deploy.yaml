@@ -79,6 +79,12 @@ jobs:
               }
             }
 
+            sudo rm -rf /etc/nginx/sites-enabled/default
+
+            sudo ln -s /etc/nginx/sites-enabled/config.conf /etc/nginx/site-enabled/
+            sudo nginx -t
+            sudo systemctl restart nginx
+
             sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
             cd merchstore
             yarn
