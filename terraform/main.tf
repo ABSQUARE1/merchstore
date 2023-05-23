@@ -24,7 +24,7 @@ provider "aws" {
 #   template = file("./install-nginx.sh")
 
 # }
-
+###
 # Create EC2 Instance - Ubuntu 20.04 for nginx
 resource "aws_instance" "my-nginx-server4" {
   ami                    = "ami-0aa2b7722dc1b5612"
