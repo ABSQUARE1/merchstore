@@ -66,15 +66,23 @@ jobs:
             sudo systemctl enable nginx
             sudo npm install -g yarn 
             sudo ufw allow OpenSSH
-            sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
+            sudo ufw allow Nginx
+           
 
+            sudo tee /etc/nginx/sites-available/config.conf > /dev/null <<EOF
+            server {
+              listen 80 default_server;
+              server_name _;
+
+              location / {
+                  proxy_pass http://localhost:3000;
+              }
+            }
+
+            sudo git clone https://github.com/ABSQUARE1/merchstore.git merchstore
             cd merchstore
             yarn
-            sudo npm install -g pm2
-            sudo pm2 delete react-build || true
-            pm2 run build
-            pm2 serve build/ 3000 -f --name "react-build" --spa
-            sudo systemctl restart nginx
+            yarn start
 
 
 
