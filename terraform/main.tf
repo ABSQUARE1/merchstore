@@ -20,10 +20,10 @@ provider "aws" {
 
 
 # Refer to the template file - install_nginx.sh
-data "template_file" "user_data1" {
-  template = file("./install-nginx.sh")
+# data "template_file" "user_data1" {
+#   template = file("./install-nginx.sh")
 
-}
+# }
 
 # Create EC2 Instance - Ubuntu 20.04 for nginx
 resource "aws_instance" "my-nginx-server4" {
@@ -34,7 +34,7 @@ resource "aws_instance" "my-nginx-server4" {
   vpc_security_group_ids = [aws_security_group.my_asg.id]
   
   # user_data : render the template
-  user_data     = base64encode("${data.template_file.user_data1.rendered}")
+  # user_data     = base64encode("${data.template_file.user_data1.rendered}")
 
   tags = {
     "Name" = "Ubuntu Nginx server 1"

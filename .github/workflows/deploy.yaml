@@ -70,12 +70,6 @@ jobs:
 
             cd merchstore
             yarn
-            # yarn run build
-            # sudo rm -rf /var/www/html
-            # sudo mkdir /var/www/html
-            # sudo cp build/* /var/www/html -r
-            # sudo systemctl restart nginx
-
             sudo npm install -g pm2
             sudo pm2 delete react-build || true
             pm2 run build
